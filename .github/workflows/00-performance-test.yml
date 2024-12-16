@@ -6,6 +6,8 @@ on:
 jobs:
   trigger-install-jmeter:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Needed to trigger repository_dispatch events.
     steps:
       - name: Trigger Install JMeter Workflow
         uses: peter-evans/repository-dispatch@v2
