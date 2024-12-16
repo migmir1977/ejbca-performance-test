@@ -1,4 +1,4 @@
-name: Publish JMeter Report
+name: Publish JMeter Report (deprecated)
 
 on:
   workflow_call:

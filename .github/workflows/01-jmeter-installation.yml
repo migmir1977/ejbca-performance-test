@@ -1,4 +1,4 @@
-name: Install JMeter
+name: Install JMeter (deprecated)
 
 on:
   workflow_call: # Makes this a reusable workflow

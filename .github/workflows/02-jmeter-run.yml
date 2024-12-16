@@ -1,4 +1,4 @@
-name: Run JMeter Test
+name: Run JMeter Test (deprecated)
 
 on:
   workflow_call:
