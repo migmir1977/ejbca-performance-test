@@ -8,7 +8,9 @@ jobs:
     uses: ./.github/workflows/01-jmeter-installation.yml # Call reusable workflow
 
   run-jmeter:
+    needs: install-jmeter
     uses: ./.github/workflows/02-jmeter-run.yml # Call reusable workflow
 
   publish-jmeter-report:
+    needs: run-jmeter
     uses: ./.github/workflows/03-jmeter-publish-report.yml # Call reusable workflow
