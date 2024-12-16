@@ -1,4 +1,4 @@
-name: Performance test
+name: All integrated performance test 
 
 on:
   workflow_dispatch: # Allows manual triggering of the performance test workflow.
