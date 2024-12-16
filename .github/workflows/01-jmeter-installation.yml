@@ -17,8 +17,3 @@ jobs:
           tar -xvzf apache-jmeter-5.6.3.tgz
           echo "JMeter installation complete."
 
-      - name: Upload JMeter Installation
-        uses: actions/upload-artifact@v3
-        with:
-          name: jmeter-installation
-          path: apache-jmeter-5.5
