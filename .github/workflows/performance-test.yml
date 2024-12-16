@@ -19,11 +19,23 @@ jobs:
                 ls 
                 ls ./apache-jmeter-5.6.3/          
 
+            - name: Upload JMeter Installation as Artifact
+              uses: actions/upload-artifact@v3
+              with:
+                name: jmeter-installation
+                path: apache-jmeter-5.6.3/
+
     run-jmeter:
         runs-on: ubuntu-latest
+        needs: install-jmeter  # Ensures this job runs after the install-jmeter job
         steps:
             - name: Checkout Repository
               uses: actions/checkout@v3
+
+            - name: Download JMeter Installation
+              uses: actions/download-artifact@v3
+              with:
+                name: jmeter-installation              
 
             - name: Is jmeter installed?
               run: |
@@ -49,6 +61,7 @@ jobs:
         
     publish-jmeter-report:
         runs-on: ubuntu-latest
+        needs: run-jmeter  # Ensures this job runs after the run-jmeter job
         steps:
             - name: Download JMeter Report
               uses: actions/download-artifact@v3
