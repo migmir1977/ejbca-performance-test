@@ -1,0 +1,63 @@
+name: Performance test
+
+on:
+  workflow_dispatch: # Allows manual triggering of the performance test workflow.
+
+jobs:
+    install-jmeter:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Install JMeter
+              run: |
+                curl -o apache-jmeter-5.6.3.tgz https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.6.3.tgz
+                tar -xvzf apache-jmeter-5.6.3.tgz          
+                echo "JMeter installation complete."
+
+            - name: Is jmeter installed?
+              run: |
+                pwd
+                ls 
+                ls ./apache-jmeter-5.6.3/          
+
+    run-jmeter:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v3
+
+            - name: Is jmeter installed?
+              run: |
+                pwd
+                ls 
+                ls ./apache-jmeter-5.6.3/          
+
+            - name: Generate Unique Identifier
+              id: generate-id
+              run: echo "RUN_ID=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
+
+            - name: Run JMeter Test Plan
+              run: |
+                ./apache-jmeter-5.6.3/bin/jmeter -n -t tests/performance-test.jmx -l test-results-${RUN_ID}.jtl -e -o report-${RUN_ID}
+                env:
+                    RUN_ID: ${{ env.RUN_ID }}
+
+            - name: Save JMeter Report
+              uses: actions/upload-artifact@v3
+              with:
+                name: jmeter-report-${{ env.RUN_ID }}
+                path: report-${{ env.RUN_ID }}
+        
+    publish-jmeter-report:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Download JMeter Report
+              uses: actions/download-artifact@v3
+              with:
+                name: jmeter-report-${{ env.RUN_ID }}
+    
+            - name: Publish to GitHub Pages
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                github_token: ${{ secrets.GITHUB_TOKEN }}
+                publish_dir: report-${{ env.RUN_ID }}
+                
