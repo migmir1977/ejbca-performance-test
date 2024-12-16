@@ -1,0 +1,26 @@
+name: Install JMeter
+
+on:
+  repository_dispatch:
+    types: [install-jmeter] # Listens for the specific trigger.
+
+jobs:
+  install-jmeter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install JMeter
+        run: |
+          sudo apt update
+          sudo apt install -y openjdk-11-jdk wget
+          wget https://downloads.apache.org//jmeter/binaries/apache-jmeter-5.5.tgz
+          tar -xvzf apache-jmeter-5.5.tgz
+          echo "JMeter installation complete."
+
+      - name: Upload JMeter Installation
+        uses: actions/upload-artifact@v3
+        with:
+          name: jmeter-installation
+          path: apache-jmeter-5.5

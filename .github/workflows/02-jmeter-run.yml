@@ -1,0 +1,33 @@
+name: Run JMeter Test
+
+on:
+  repository_dispatch:
+    types: [run-jmeter]
+
+jobs:
+  run-jmeter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Download JMeter Installation
+        uses: actions/download-artifact@v3
+        with:
+          name: jmeter-installation
+
+      - name: Generate Unique Identifier
+        id: generate-id
+        run: echo "RUN_ID=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
+
+      - name: Run JMeter Test Plan
+        run: |
+          ./apache-jmeter-5.5/bin/jmeter -n -t tests/performance-test.jmx -l test-results-${RUN_ID}.jtl -e -o report-${RUN_ID}
+        env:
+          RUN_ID: ${{ env.RUN_ID }}
+
+      - name: Save JMeter Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: jmeter-report-${{ env.RUN_ID }}
+          path: report-${{ env.RUN_ID }}

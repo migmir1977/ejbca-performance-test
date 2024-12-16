@@ -1,0 +1,34 @@
+name: Performance test
+
+on:
+  workflow_dispatch: # Allows manual triggering of the performance test workflow.
+
+jobs:
+  trigger-install-jmeter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Install JMeter Workflow
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: install-jmeter
+
+  trigger-run-jmeter:
+    runs-on: ubuntu-latest
+    needs: trigger-install-jmeter # Ensures the Install JMeter job is complete.
+    steps:
+      - name: Trigger Run JMeter Workflow
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: run-jmeter
+
+  trigger-publish-jmeter-report:
+    runs-on: ubuntu-latest
+    needs: trigger-run-jmeter # Ensures the Run JMeter job is complete.
+    steps:
+      - name: Trigger Publish JMeter Report Workflow
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: publish-jmeter-report
