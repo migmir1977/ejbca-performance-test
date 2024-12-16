@@ -13,8 +13,7 @@ jobs:
             - name: Is jmeter installed?
               run: |
                 pwd
-                ls 
-                ls ./apache-jmeter-5.6.3/          
+                ls                 
 
             - name: Install JMeter
               run: |
