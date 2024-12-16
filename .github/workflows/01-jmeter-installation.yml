@@ -14,3 +14,9 @@ jobs:
           tar -xvzf apache-jmeter-5.6.3.tgz          
           echo "JMeter installation complete."
 
+      - name: Is jmeter installed?
+        run: |
+          ls 
+          ls ./apache-jmeter-5.6.3/          
+  
+
