@@ -4,37 +4,11 @@ on:
   workflow_dispatch: # Allows manual triggering of the performance test workflow.
 
 jobs:
-  trigger-install-jmeter:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write  # Needed to trigger repository_dispatch events.
-    steps:
-      - name: Trigger Install JMeter Workflow
-        uses: peter-evans/repository-dispatch@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          event-type: install-jmeter
+  install-jmeter:
+    uses: ./.github/workflows/01-jmeter-installation.yml # Call reusable workflow
 
-  trigger-run-jmeter:
-    runs-on: ubuntu-latest
-    needs: trigger-install-jmeter # Ensures the Install JMeter job is complete.
-    permissions:
-      contents: write  # Needed to trigger repository_dispatch events.
-    steps:
-      - name: Trigger Run JMeter Workflow
-        uses: peter-evans/repository-dispatch@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          event-type: run-jmeter
+  run-jmeter:
+    uses: ./.github/workflows/02-jmeter-run.yml # Call reusable workflow
 
-  trigger-publish-jmeter-report:
-    runs-on: ubuntu-latest
-    needs: trigger-run-jmeter # Ensures the Run JMeter job is complete.
-    permissions:
-      contents: write  # Needed to trigger repository_dispatch events.
-    steps:
-      - name: Trigger Publish JMeter Report Workflow
-        uses: peter-evans/repository-dispatch@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          event-type: publish-jmeter-report
+  publish-jmeter-report:
+    uses: ./.github/workflows/03-jmeter-publish-report.yml # Call reusable workflow

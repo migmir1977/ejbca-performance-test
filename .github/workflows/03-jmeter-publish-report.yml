@@ -1,15 +1,13 @@
 name: Publish JMeter Report
 
 on:
-  repository_dispatch:
-    types: [publish-jmeter-report]
-
+  workflow_call:
+    inputs: {}
+            
 jobs:
   publish-jmeter-report:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
 
       - name: Download JMeter Report
         uses: actions/download-artifact@v3
