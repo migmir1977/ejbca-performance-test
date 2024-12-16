@@ -18,6 +18,8 @@ jobs:
   trigger-run-jmeter:
     runs-on: ubuntu-latest
     needs: trigger-install-jmeter # Ensures the Install JMeter job is complete.
+    permissions:
+      contents: write  # Needed to trigger repository_dispatch events.
     steps:
       - name: Trigger Run JMeter Workflow
         uses: peter-evans/repository-dispatch@v2
@@ -28,6 +30,8 @@ jobs:
   trigger-publish-jmeter-report:
     runs-on: ubuntu-latest
     needs: trigger-run-jmeter # Ensures the Run JMeter job is complete.
+    permissions:
+      contents: write  # Needed to trigger repository_dispatch events.
     steps:
       - name: Trigger Publish JMeter Report Workflow
         uses: peter-evans/repository-dispatch@v2
