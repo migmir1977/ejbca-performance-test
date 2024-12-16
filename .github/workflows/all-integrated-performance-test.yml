@@ -3,6 +3,10 @@ name: All integrated performance test
 on:
   workflow_dispatch: # Allows manual triggering of the performance test workflow.
 
+permissions:
+  contents: write  # Required to push changes to gh-pages
+  pages: write     # Required to update GitHub Pages  
+
 jobs:
     install-run-jmeter-publish-report:
         runs-on: ubuntu-latest
