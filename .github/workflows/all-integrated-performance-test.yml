@@ -58,18 +58,18 @@ jobs:
               run: |
                 pwd
                 ls
-                ls report*
+                ls repo
   
             - name: Copy JMeter Report to gh-pages directory
               run: |
-                mkdir -p reports/${RUN_ID}
-                cp -r report-${RUN_ID}/* reports/${RUN_ID}/
+                mkdir -p repo/reports/${RUN_ID}
+                cp -r report-${RUN_ID}/* repo/reports/${RUN_ID}/
 
             - name: Commit and Push Reports to gh-pages
               run: |
                 git config --local user.email "github-actions[bot]@users.noreply.github.com"
                 git config --local user.name "github-actions[bot]"
-                git add reports/${RUN_ID}
+                git add repo/reports/${RUN_ID}
                 git commit -m "Add JMeter report for ${RUN_ID}"
                 git push origin gh-pages
 
@@ -77,6 +77,6 @@ jobs:
               uses: peaceiris/actions-gh-pages@v3
               with:
                 github_token: ${{ secrets.GITHUB_TOKEN }}
-                publish_dir: report
+                publish_dir: reports
                 publish_branch: gh-pages
                 
