@@ -51,6 +51,7 @@ jobs:
             - name: Checkout gh-pages branch
               uses: actions/checkout@v3
               with:
+                path: repo
                 ref: gh-pages  # gh-pages branch
 
             - name: Is jmeter installed?
