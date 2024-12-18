@@ -39,7 +39,7 @@ jobs:
             - name: Save JMeter Report
               uses: actions/upload-artifact@v4
               with:
-                name: jmeter-report-${RUN_ID}
+                name: jmeter-report-${{ env.RUN_ID }}
                 path: report
         
         #publish-jmeter-report:    
