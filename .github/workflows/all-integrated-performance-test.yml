@@ -80,4 +80,4 @@ jobs:
                 github_token: ${{ secrets.GITHUB_TOKEN }}
                 publish_dir: reports
                 publish_branch: gh-pages
-                
+                keep_files: true  # Preserve existing files in gh-pages
