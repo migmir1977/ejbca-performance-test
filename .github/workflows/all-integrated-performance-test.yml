@@ -38,28 +38,12 @@ jobs:
                 path: report-${{ env.RUN_ID }}
         
         #publish-jmeter-report:  
-            - name: Is jmeter installed?
-              run: |
-                pwd
-                ls              
-
-            - name: Is jmeter installed?
-              run: |
-                pwd
-                ls
-                ls report*
             - name: Checkout gh-pages branch
               uses: actions/checkout@v3
               with:
                 path: repo
                 ref: gh-pages  # gh-pages branch
 
-            - name: Is jmeter installed?
-              run: |
-                pwd
-                ls
-                ls repo
-  
             - name: Copy JMeter Report to gh-pages directory
               run: |
                 mkdir -p repo/reports/${RUN_ID}
