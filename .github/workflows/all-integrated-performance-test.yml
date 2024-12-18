@@ -64,6 +64,16 @@ jobs:
               run: |
                 mkdir -p repo/reports/${RUN_ID}
                 cp -r report-${RUN_ID}/* repo/reports/${RUN_ID}/
+            - name: Generate Index File
+              run: |
+                cd repo
+                echo "<!DOCTYPE html>" > index.html
+                echo "<html><head><title>Reports</title></head><body><h1>Reports</h1><ul>" >> index.html
+                for folder in $(ls -d reports/*/); do
+                  folder_name=$(basename $folder)
+                  echo "<li><a href='$folder_name/index.html'>$folder_name</a></li>" >> index.html
+                done
+                echo "</ul></body></html>" >> index.html              
 
             - name: Commit and Push Reports to gh-pages
               run: |
@@ -71,13 +81,7 @@ jobs:
                 git config --local user.email "github-actions[bot]@users.noreply.github.com"
                 git config --local user.name "github-actions[bot]"
                 git add reports/${RUN_ID}
+                git add index.html
                 git commit -m "Add JMeter report for ${RUN_ID}"
                 git push origin gh-pages
-
-            - name: Publish to GitHub Pages
-              uses: peaceiris/actions-gh-pages@v3
-              with:
-                github_token: ${{ secrets.GITHUB_TOKEN }}
-                publish_dir: reports
-                publish_branch: gh-pages
-                keep_files: true  # Preserve existing files in gh-pages
+              
