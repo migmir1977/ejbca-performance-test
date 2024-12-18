@@ -70,9 +70,8 @@ jobs:
                 cd repo
                 echo "<!DOCTYPE html>" > index.html
                 echo "<html><head><title>Reports</title></head><body><h1>Reports List</h1><ul>" >> index.html
-                for folder in $(ls -d reports/*/); do
-                  folder_name=$(basename $folder)
-                  echo "<li><a href='reports/$folder/index.html'>$folder_name</a></li>" >> index.html
+                for folder in $(ls -d reports/*/); do                  
+                  echo "<li><a href='$folder/index.html'>$folder_name</a></li>" >> index.html
                 done
                 echo "</ul></body></html>" >> index.html              
 
